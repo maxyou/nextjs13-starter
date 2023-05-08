@@ -1,6 +1,11 @@
-export default interface Data {
-    User: string;
-    Product: string;
-    Order: string;
-  }
-  
+export interface User { 
+    name: string
+}
+
+export interface Product { 
+    name: string
+ }
+
+export interface Order { 
+    name: string
+}

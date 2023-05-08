@@ -8,7 +8,7 @@ import { ApiDef } from '../common'
 
 export default function Home() {
 
-  const fetcher: Fetcher<ApiDef["User"]> = async (url:string) => {
+  const fetcher: Fetcher<ApiDef.User> = async (url:string) => {
     const response = await fetch(url);
     const data = await response.json();
     return data;
@@ -29,7 +29,7 @@ export default function Home() {
       <div className="flex flex-col items-center justify-between">
 
         <div>
-          <p className="text-2xl font-bold">{data}</p>
+          <p className="text-2xl font-bold">{data?.name}</p>
         </div>
         <div>
           <p className="text-2xl font-bold">Documentation 2</p>

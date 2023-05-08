@@ -1,5 +1,5 @@
-import ApiDef from './apiDef'
+import * as ApiDef from './apiDef'
 
 export {
-    type ApiDef,
+    ApiDef,
 }
