@@ -1,9 +1,7 @@
 'use client'
 
-import Image from 'next/image'
 import useSWR from 'swr'
 import { Fetcher } from "swr";
-
 import { ApiDef } from '../common'
 
 export default function Home() {
