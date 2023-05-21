@@ -10,21 +10,27 @@ const typeDefinitions = /* GraphQL */ `
  
 const resolvers = {
   Query: {
-    hello: () => 'Hello World!'
+    hello: () => 'Hello World from Yoga graphQL server!'
   }
 }
- 
+
+
 export const schema = makeExecutableSchema({
   resolvers: [resolvers],
   typeDefs: [typeDefinitions]
 })
 
-export default createYoga<{
+const { handleRequest } = createYoga<{
   req: NextApiRequest
   res: NextApiResponse
 }>({
   schema,
   // Needed to be defined explicitly because our endpoint lives at a different path other than `/graphql`
-  graphqlEndpoint: '/api/graphql'
+  graphqlEndpoint: '/api/graphql',
+  fetchAPI: {
+    Response: Response,
+    Request: Request,
+  },
 })
 
+export { handleRequest as GET, handleRequest as POST }
