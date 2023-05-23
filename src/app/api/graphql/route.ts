@@ -1,16 +1,28 @@
 import { createYoga, createSchema } from 'graphql-yoga'
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
 const typeDefinitions = /* GraphQL */ `
   type Query {
     hello: String!
   }
 `
- 
+
 const resolvers = {
   Query: {
-    hello: () => 'Hello World from Yoga graphQL server!'
+    hello: async () => {
+      try {
+        const users = await prisma.user.findMany();
+        const names = users.map((user) => user.name).join(',');
+        console.log('names', names);
+        return names;
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        throw new Error('Could not fetch users');
+      }
+    }
   }
 }
 
