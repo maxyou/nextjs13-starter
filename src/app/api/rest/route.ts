@@ -1,4 +1,4 @@
-import { ApiDef } from '../../common'
+import { ApiDef } from '../../../common'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -6,9 +6,9 @@ export async function GET(request: Request) {
     console.log('GET server url:', process.env.EXPRESS_SERVER_URL);
   
     try {
-      const response = await fetch(process.env.EXPRESS_SERVER_URL!);
+      const response = await fetch(process.env.EXPRESS_SERVER_URL!, {cache: "reload"});
       const data = await response.text();
-      console.log('GET res from server:', data);
+      console.log('GET response from server:', data);
   
       const res: ApiDef.User = { name: data};
       // Process the data and return a response to the client

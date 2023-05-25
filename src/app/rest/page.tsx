@@ -12,7 +12,7 @@ export default function RestAPI() {
     return data;
   };
 
-  const { data, error, isLoading } = useSWR('/api', fetcher)
+  const { data, error, isLoading } = useSWR('/api/rest', fetcher)
  
   if (error) return <div>failed to load</div>
   if (isLoading) return <div>loading...</div>

@@ -4,13 +4,13 @@ A Next.js-13 starter with the new app router. I'm trying to add features to make
 
 - Yoga as graphQL server
 - URQL as graphQL client
+- Prisma to access PostgreSQL
+- todo list
 
 ## ToDo
 
-- Prisma to access PostgreSQL
 - some kind of authentication system
 - tailwind-elements or daisyUI?
-- basic TODO or forum or blog?
 
 ## License
 
