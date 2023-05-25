@@ -5,27 +5,51 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 const typeDefinitions = /* GraphQL */ `
-  type Query {
-    hello: String!
-  }
-`
+type TodoItem {
+  id: ID!
+  content: String!
+  done: Boolean!
+}
+
+type Query {
+  todoItems: [TodoItem!]!
+}
+
+type Mutation {
+  addTodoItem(content: String!): TodoItem!
+  markTodoItemDone(id: ID!): TodoItem!
+  deleteTodoItem(id: ID!): Boolean!
+}
+`;
+
 
 const resolvers = {
   Query: {
-    hello: async () => {
-      try {
-        const users = await prisma.user.findMany();
-        const names = users.map((user) => user.name).join(',');
-        console.log('names', names);
-        return names;
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        throw new Error('Could not fetch users');
-      }
-    }
-  }
-}
-
+    todoItems: async () => {
+      console.log(`queryTodoItem() get new item: ${(await prisma.todoItem.findMany()).toString}`);
+      return prisma.todoItem.findMany();
+    },
+  },
+  Mutation: {
+    addTodoItem: async (_: any, { content }: { content: string }) => {
+      console.log(`addTodoItem() get new item: ${content}`);
+      return prisma.todoItem.create({
+        data: { content },
+      });
+    },
+    markTodoItemDone: async (_: any, { id }: { id: string }) => {
+      return prisma.todoItem.update({
+        where: { id },
+        data: { done: true },
+      });
+    },
+    deleteTodoItem: async (_: any, { id }: { id: string }) => {
+      return prisma.todoItem.delete({
+        where: { id },
+      });
+    },
+  },
+};
 
 export const schema = makeExecutableSchema({
   resolvers: [resolvers],
