@@ -26,8 +26,13 @@ type Mutation {
 const resolvers = {
   Query: {
     todoItems: async () => {
-      console.log(`query TodoItem(): ${(await prisma.todoItem.findMany()).toString}`);
-      return prisma.todoItem.findMany();
+      const result = await prisma.todoItem.findMany({
+        orderBy: {
+          done: "asc"
+        }
+      });
+      console.log(`query TodoItem(): ${JSON.stringify(result)}`);
+      return result;
     },
   },
   Mutation: {
