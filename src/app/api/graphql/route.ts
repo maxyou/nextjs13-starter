@@ -26,24 +26,26 @@ type Mutation {
 const resolvers = {
   Query: {
     todoItems: async () => {
-      console.log(`queryTodoItem() get new item: ${(await prisma.todoItem.findMany()).toString}`);
+      console.log(`query TodoItem(): ${(await prisma.todoItem.findMany()).toString}`);
       return prisma.todoItem.findMany();
     },
   },
   Mutation: {
     addTodoItem: async (_: any, { content }: { content: string }) => {
-      console.log(`addTodoItem() get new item: ${content}`);
+      console.log(`addTodoItem(): ${content}`);
       return prisma.todoItem.create({
         data: { content },
       });
     },
     markTodoItemDone: async (_: any, { id }: { id: string }) => {
+      console.log(`markTodoItemDone(): ${id}`);
       return prisma.todoItem.update({
         where: { id },
         data: { done: true },
       });
     },
     deleteTodoItem: async (_: any, { id }: { id: string }) => {
+      console.log(`deleteTodoItem(): ${id}`);
       return prisma.todoItem.delete({
         where: { id },
       });

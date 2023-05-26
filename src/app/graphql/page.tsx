@@ -56,7 +56,9 @@ const TodoListPage: React.FC = () => {
   const [deleteTodoResult, deleteTodo] = useMutation(DELETE_TODO_MUTATION);
 
   // Query hook for fetching todo items
-  const [fetchTodoResult] = useQuery({ query: FETCH_TODO_ITEMS_QUERY });
+  const [fetchTodoResult, reexecuteQuery] = useQuery({
+    query: FETCH_TODO_ITEMS_QUERY,
+  });
 
   const handleAddTodo = () => {
     addTodo({ content: newTodoContent }).then(() => {
@@ -65,11 +67,17 @@ const TodoListPage: React.FC = () => {
   };
 
   const handleMarkTodoDone = (id: string) => {
-    markTodoDone({ id });
+    markTodoDone({ id }).then(result => {
+      console.log('Deleted todo item and reexecuteQuery()', id);
+      reexecuteQuery({ requestPolicy: 'network-only' });
+    });
   };
 
   const handleDeleteTodo = (id: string) => {
-    deleteTodo({ id });
+    deleteTodo({ id }).then(result => {
+      console.log('Deleted todo item and reexecuteQuery()', id);
+      reexecuteQuery({ requestPolicy: 'network-only' });
+    });
   };
 
   return (
@@ -81,6 +89,12 @@ const TodoListPage: React.FC = () => {
           className="border border-gray-300 p-2 rounded-md flex-grow"
           value={newTodoContent}
           onChange={(e) => setNewTodoContent(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevent form submission
+              handleAddTodo();
+            }
+          }}
         />
         <button
           className="bg-blue-500 text-white p-2 rounded-md ml-2"
