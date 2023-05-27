@@ -16,13 +16,17 @@ const TodoListPage: React.FC = () => {
   console.log(`get data: ${JSON.stringify(data)}`)
 
   const handleAddTodo = async () => {
-    await fetch('/api/rest', {
+    const response = await fetch('/api/rest', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ content: newTodoContent }),
     });
+    
+
+    console.log(`post get response: ${JSON.stringify(await response.json())}`)
+
     setNewTodoContent('');
     mutate();
   };
@@ -65,7 +69,7 @@ const TodoListPage: React.FC = () => {
       </div>
 
       <ul>
-        {data && data?.todoItems?.map((todoItem: any) => (
+        {data?.todoItems?.map((todoItem: any) => (
           <li
             key={todoItem.id}
             className="mb-2 bg-gray-100 p-2 rounded-md flex flex-wrap items-center justify-between"
