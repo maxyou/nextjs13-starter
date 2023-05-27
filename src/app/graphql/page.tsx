@@ -1,8 +1,7 @@
 'use client'
 
-import { ApiDef } from '../../common'
 import React, { useState } from 'react';
-import { gql, useQuery, useMutation } from 'urql'
+import { useQuery, useMutation } from 'urql'
 
 // GraphQL mutation to add a todo item
 const ADD_TODO_MUTATION = `
