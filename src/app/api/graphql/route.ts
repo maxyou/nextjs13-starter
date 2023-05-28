@@ -17,7 +17,7 @@ type Query {
 
 type Mutation {
   addTodoItem(content: String!): TodoItem!
-  markTodoItemDone(id: ID!): TodoItem!
+  markTodoItemDone(id: ID!, done:String!): TodoItem!
   deleteTodoItem(id: ID!): Boolean!
 }
 `;
@@ -42,11 +42,11 @@ const resolvers = {
         data: { content },
       });
     },
-    markTodoItemDone: async (_: any, { id }: { id: string }) => {
+    markTodoItemDone: async (_: any, { id, done }: { id: string, done:string }) => {
       console.log(`markTodoItemDone(): ${id}`);
       return prisma.todoItem.update({
         where: { id },
-        data: { done: true },
+        data: { done: done == 'false' },
       });
     },
     deleteTodoItem: async (_: any, { id }: { id: string }) => {

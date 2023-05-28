@@ -15,8 +15,8 @@ const ADD_TODO_MUTATION = `
 
 // GraphQL mutation to mark a todo item as done
 const MARK_TODO_DONE_MUTATION = `
-  mutation MarkTodoDone($id: ID!) {
-    markTodoItemDone(id: $id) {
+  mutation MarkTodoDone($id: ID!, $done: String!) {
+    markTodoItemDone(id: $id, done: $done) {
       id
       content
       done
@@ -65,16 +65,16 @@ const TodoListPage: React.FC = () => {
     });
   };
 
-  const handleMarkTodoDone = (id: string) => {
-    markTodoDone({ id }).then(result => {
-      console.log('Deleted todo item and reexecuteQuery()', id);
+  const handleMarkTodoDone = (id: string, done:string) => {
+    markTodoDone({ id, done }).then(result => {
+      console.log('markTodoDone item and reexecuteQuery()', id);
       reexecuteQuery({ requestPolicy: 'network-only' });
     });
   };
 
   const handleDeleteTodo = (id: string) => {
     deleteTodo({ id }).then(result => {
-      console.log('Deleted todo item and reexecuteQuery()', id);
+      console.log('deleteTodo item and reexecuteQuery()', id);
       reexecuteQuery({ requestPolicy: 'network-only' });
     });
   };
@@ -115,7 +115,7 @@ const TodoListPage: React.FC = () => {
               {!todoItem.done && (
                 <button
                   className="bg-green-500 text-white p-2 rounded-md"
-                  onClick={() => handleMarkTodoDone(todoItem.id)}
+                  onClick={() => handleMarkTodoDone(todoItem.id,'false')}
                 >
                   Done
                 </button>
@@ -123,7 +123,7 @@ const TodoListPage: React.FC = () => {
               {todoItem.done && (
                 <button
                   className="bg-green-300 text-white p-2 rounded-md relative"
-                  disabled
+                  onClick={() => handleMarkTodoDone(todoItem.id,'true')}
                 >
                   Done
                   <span className="absolute inset-0 flex items-center justify-center">
