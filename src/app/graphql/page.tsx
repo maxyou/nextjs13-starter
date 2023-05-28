@@ -72,11 +72,19 @@ const TodoListPage: React.FC = () => {
     });
   };
 
-  const handleDeleteTodo = (id: string) => {
-    deleteTodo({ id }).then(result => {
-      console.log('deleteTodo item and reexecuteQuery()', id);
-      reexecuteQuery({ requestPolicy: 'network-only' });
-    });
+  const handleDeleteTodo = (id: string, content:string) => {
+    if (window.confirm(`delete: ${content}`)) {
+
+      deleteTodo({ id }).then(result => {
+        console.log('deleteTodo item and reexecuteQuery()', id);
+        reexecuteQuery({ requestPolicy: 'network-only' });
+      });
+          
+    } else {
+      // Do nothing!
+      console.log('delete canceled');
+    }
+
   };
 
   return (
@@ -146,7 +154,7 @@ const TodoListPage: React.FC = () => {
               )}
               <button
                 className="bg-red-500 text-white p-2 rounded-md ml-2"
-                onClick={() => handleDeleteTodo(todoItem.id)}
+                onClick={() => handleDeleteTodo(todoItem.id, todoItem.content)}
               >
                 Delete
               </button>

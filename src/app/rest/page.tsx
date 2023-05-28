@@ -41,11 +41,20 @@ const TodoListPage: React.FC = () => {
     mutate();
   };
 
-  const handleDeleteTodo = async (id: string) => {
-    await fetch(`/api/rest/?id=${id}`, {
-      method: 'DELETE',
-    });
-    mutate();
+  const handleDeleteTodo = async (id: string, content:string) => {
+
+    if (window.confirm(`delete: ${content}`)) {
+
+      await fetch(`/api/rest/?id=${id}`, {
+        method: 'DELETE',
+      });
+      mutate();
+        
+    } else {
+      // Do nothing!
+      console.log('delete canceled');
+    }
+
   };
 
   return (
@@ -114,7 +123,7 @@ const TodoListPage: React.FC = () => {
               )}
               <button
                 className="bg-red-500 text-white p-2 rounded-md ml-2"
-                onClick={() => handleDeleteTodo(todoItem.id)}
+                onClick={() => handleDeleteTodo(todoItem.id,todoItem.content)}
               >
                 Delete
               </button>
