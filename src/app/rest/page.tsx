@@ -42,7 +42,7 @@ const TodoListPage: React.FC = () => {
   };
 
   const handleDeleteTodo = async (id: string) => {
-    await fetch(`/api/rest/${id}`, {
+    await fetch(`/api/rest/?id=${id}`, {
       method: 'DELETE',
     });
     mutate();

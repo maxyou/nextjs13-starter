@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
+import { Calc } from '../../../common';
 
 const prisma = new PrismaClient();
  
@@ -37,17 +38,6 @@ export async function POST(request: Request) {
   return NextResponse.json({ret});
 }
 
-function parseQuery(url: string) {
-  const query: {[key: string]: string} = {};
-  if (url.indexOf('?') > -1) {
-    const queryStr = url.split('?')[1];
-    queryStr.split('&').forEach(q => {
-      const [key, value] = q.split('=');
-      query[key] = value;
-    });
-  }
-  return query;
-}
 
 export async function PUT(request: Request) {
 
@@ -56,7 +46,7 @@ export async function PUT(request: Request) {
   
   // const id = getQueryParam(request, 'id') || "";
 
-  const query = parseQuery(request.url);
+  const query = Calc.parseUrlQuery(request.url);
   const id = query.id;
   const done = query.done;
   console.log(`PUT id: ${id}`);
@@ -71,6 +61,29 @@ export async function PUT(request: Request) {
   });
   
   console.log(`prisma.todoItem.update return: ${JSON.stringify(ret)}`) 
+
+  return NextResponse.json({ret});
+}
+
+export async function DELETE(request: Request) {
+
+  console.log('req.method:', request.method)
+  console.log('req.url', request.url)
+  
+  // const id = getQueryParam(request, 'id') || "";
+
+  const query = Calc.parseUrlQuery(request.url);
+  const id = query.id;
+  console.log(`DELETE id: ${id}`);
+
+  // const {content} = await request.json();
+  // console.log(`PUT content: ${content}`);
+
+  const ret = await prisma.todoItem.delete({
+    where: { id }
+  });
+  
+  console.log(`prisma.todoItem.delete return: ${JSON.stringify(ret)}`) 
 
   return NextResponse.json({ret});
 }
