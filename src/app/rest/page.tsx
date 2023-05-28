@@ -32,7 +32,7 @@ const TodoListPage: React.FC = () => {
   };
 
   const handleMarkTodoDone = async (id: string) => {
-    await fetch(`/api/rest/${id}/done`, {
+    await fetch(`/api/rest/?id=${id}`, {
       method: 'PUT',
     });
     mutate();
