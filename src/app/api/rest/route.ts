@@ -58,14 +58,16 @@ export async function PUT(request: Request) {
 
   const query = parseQuery(request.url);
   const id = query.id;
+  const done = query.done;
   console.log(`PUT id: ${id}`);
+  console.log(`PUT done: ${done}`);
 
   // const {content} = await request.json();
   // console.log(`PUT content: ${content}`);
 
   const ret = await prisma.todoItem.update({
     where: { id },
-    data: { done: true },
+    data: { done: done == 'false' },
   });
   
   console.log(`prisma.todoItem.update return: ${JSON.stringify(ret)}`) 

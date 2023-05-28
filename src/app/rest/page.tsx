@@ -31,8 +31,11 @@ const TodoListPage: React.FC = () => {
     mutate();
   };
 
-  const handleMarkTodoDone = async (id: string) => {
-    await fetch(`/api/rest/?id=${id}`, {
+  const handleMarkTodoDone = async (id: string,done:string) => {
+
+    console.log(`put id: ${id}, done: ${done}`)
+
+    await fetch(`/api/rest/?id=${id}&done=${done}`, {
       method: 'PUT',
     });
     mutate();
@@ -80,7 +83,7 @@ const TodoListPage: React.FC = () => {
               {!todoItem.done && (
                 <button
                   className="bg-green-500 text-white p-2 rounded-md"
-                  onClick={() => handleMarkTodoDone(todoItem.id)}
+                  onClick={() => handleMarkTodoDone(todoItem.id,'false')}
                 >
                   Done
                 </button>
@@ -88,7 +91,7 @@ const TodoListPage: React.FC = () => {
               {todoItem.done && (
                 <button
                   className="bg-green-300 text-white p-2 rounded-md relative"
-                  disabled
+                  onClick={() => handleMarkTodoDone(todoItem.id,'true')}
                 >
                   Done
                   <span className="absolute inset-0 flex items-center justify-center">
