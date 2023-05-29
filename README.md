@@ -22,7 +22,7 @@ I'm trying to add features to make it a complete starter for future projects.
 - tailwind-elements
 
 ### Screen
-![](https://github.com/maxyou/nextjs13-starter/raw/master/nextjs-starter-screen.PNG)
+![](https://raw.githubusercontent.com/maxyou/nextjs13-starter/main/nextjs-starter-screen.png)
 
 ## License
 
