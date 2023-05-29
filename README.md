@@ -1,4 +1,5 @@
-A Next.js-13 starter with the new app router. I'm trying to add features to make it a complete starter for future projects.
+A Next.js-13 starter with the new app router. 
+I'm trying to add features to make it a complete starter for future projects.
 
 ## Tech Stack
 
@@ -10,15 +11,18 @@ A Next.js-13 starter with the new app router. I'm trying to add features to make
 
 ## Done
 
-- Yoga as graphQL server
-- URQL as graphQL client
+- Yoga as graphQL server, URQL as graphQL client
+- SWR for Restful-API
 - Prisma to access PostgreSQL
-- todo list
+- todo list CRUD
 
 ## ToDo
 
 - authentication
 - tailwind-elements
+
+### Screen
+![](https://github.com/maxyou/nextjs13-starter/raw/master/nextjs-starter-screen.PNG)
 
 ## License
 
