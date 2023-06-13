@@ -36,10 +36,10 @@ const resolvers = {
     },
   },
   Mutation: {
-    addTodoItem: async (_: any, { content }: { content: string }) => {
+    addTodoItem: async (_: any, { content, userId }: { content: string, userId: string }) => {
       console.log(`addTodoItem(): ${content}`);
       return prisma.todoItem.create({
-        data: { content },
+        data: { content, userId },
       });
     },
     markTodoItemDone: async (_: any, { id, done }: { id: string, done:string }) => {
@@ -69,7 +69,7 @@ const { handleRequest } = createYoga<{
 }>({
   schema,
   // Needed to be defined explicitly because our endpoint lives at a different path other than `/graphql`
-  graphqlEndpoint: '/api/graphql',
+  graphqlEndpoint: '/api/biz/todolist',
   fetchAPI: {
     Response: Response,
     Request: Request,

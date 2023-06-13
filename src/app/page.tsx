@@ -9,13 +9,13 @@ export default function Home() {
     <main className="w-full h-full flex flex-col items-center justify-between p-24">
 
       <div>
-        <Link href="/rest">
-          <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 m-2 rounded'>use restful api</button>
+        <Link href="/biz/todolist">
+          <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 m-2 rounded'>goto todolist</button>
         </Link>
       </div>
       <div>
-        <Link href="/graphql">
-          <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 m-2 rounded'>use graphql api</button>
+        <Link href="/user/login">
+          <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 m-2 rounded'>goto login</button>
         </Link>
       </div>
 
