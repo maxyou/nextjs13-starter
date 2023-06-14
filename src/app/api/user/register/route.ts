@@ -20,28 +20,34 @@ export async function GET(request: Request) {
   
   return NextResponse.json({ todoItems });
 }
-
 export async function POST(request: Request) {
-
   console.log('req.method:', request.method)
   console.log('req.url', request.url)
   
-  const {name, password} = await request.json();
+  const { name, password } = await request.json();
   console.log(`POST name: ${name}, password: ${password}`);
 
-  const ret = await prisma.user.create({
-    data: {
-      name: name,
-      password: password,
-      // email: '',
-    }
-  });  
-  
-  console.log(`prisma.todoItem.create return: ${JSON.stringify(ret)}`) 
+  try {
+    const ret = await prisma.user.create({
+      data: {
+        name: name,
+        password: password,
+        // email: '',
+      }
+    });
 
-  return NextResponse.json({ret});
+    console.log(`prisma.todoItem.create return: ${JSON.stringify(ret)}`) 
+    
+    // Remove password from the response object
+    const { password: _, ...responseData } = ret;
+
+    return NextResponse.json({ code: 0, message: 'success', data: responseData });
+
+  } catch (error) {
+    console.error('Error during user registration:', error);
+    return NextResponse.json({ code: -1, message: 'Failed to register user.', data: { name } });
+  }
 }
-
 
 export async function PUT(request: Request) {
 

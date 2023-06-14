@@ -47,11 +47,13 @@ const RegisterPage: React.FC = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: 'myname',
-        password: 'mypassword',
+        name: name,
+        password: password,
       }),
     };
     
+    console.log(`POST name: ${name}, password: ${password}`);
+
     fetch(url, options)
       .then((response) => response.json())
       .then((data) => {
