@@ -2,9 +2,12 @@
 
 import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
-
+import { useRouter } from 'next/navigation';
 
 const RegisterPage: React.FC = () => {
+
+  const router = useRouter();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -56,8 +59,12 @@ const RegisterPage: React.FC = () => {
 
     fetch(url, options)
       .then((response) => response.json())
-      .then((data) => {
+      .then((data) => {        
         console.log(data);
+        if (data.code === 0) {          
+          // redirect to todolist page
+          router.push('/biz/todolist');
+        }
       });
 
 
