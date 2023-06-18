@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div>
         <h1>Server Side Rendering</h1>
-        <p>cookieStore: {JSON.stringify(cookieStore)}</p>
+        <p>cookieStore: {JSON.stringify(cookieStore.getAll())}</p>
     </div>
   )
 }

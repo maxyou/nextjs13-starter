@@ -2,138 +2,106 @@
 
 import React, { useState } from 'react';
 import useSWR, { mutate } from 'swr';
+import { useRouter } from 'next/navigation';
 
-const TodoListPage: React.FC = () => {
-  const [newTodoContent, setNewTodoContent] = useState('');
+const LoginPage: React.FC = () => {
 
-  const fetchTodoItems = async (url:string) => {
-    const response = await fetch(url);
-    return response.json();
+  const router = useRouter();
+
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [suggestion, setSuggestion] = useState('');
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
-  const { data, mutate } = useSWR('/api/rest', fetchTodoItems);
 
-  console.log(`get data: ${JSON.stringify(data)}`)
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
 
-  const handleAddTodo = async () => {
-    const response = await fetch('/api/rest', {
-      method: 'POST',
+
+
+  const handleLogin = () => {
+
+    const url = "/api/user/login";
+    const options = {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ content: newTodoContent }),
-    });
+      body: JSON.stringify({
+        name: name,
+        password: password,
+      }),
+    };
     
+    console.log(`POST name: ${name}, password: ${password}`);
 
-    console.log(`post get response: ${JSON.stringify(await response.json())}`)
-
-    setNewTodoContent('');
-    mutate();
-  };
-
-  const handleMarkTodoDone = async (id: string,done:string) => {
-
-    console.log(`put id: ${id}, done: ${done}`)
-
-    await fetch(`/api/rest/?id=${id}&done=${done}`, {
-      method: 'PUT',
-    });
-    mutate();
-  };
-
-  const handleDeleteTodo = async (id: string, content:string) => {
-
-    if (window.confirm(`delete: ${content}`)) {
-
-      await fetch(`/api/rest/?id=${id}`, {
-        method: 'DELETE',
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {        
+        console.log(data);
+        if (data.code === 0) {          
+          // redirect to todolist page
+          router.push('/biz/todolist');
+        }
       });
-      mutate();
-        
-    } else {
-      // Do nothing!
-      console.log('delete canceled');
-    }
 
+
+    // Perform registration logic here
+    // You can send the data to an API or handle it as per your requirement
+    console.log('Registration submitted');
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex mb-4">
-        <input
-          type="text"
-          className="border border-gray-300 p-2 rounded-md flex-grow"
-          value={newTodoContent}
-          onChange={(e) => setNewTodoContent(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault(); // Prevent form submission
-              handleAddTodo();
-            }
-          }}
-        />
-        <button
-          className="bg-blue-500 text-white p-2 rounded-md ml-2"
-          onClick={handleAddTodo}
-        >
-          Add
-        </button>
-      </div>
-
-      <ul>
-        {data?.todoItems?.map((todoItem: any) => (
-          <li
-            key={todoItem.id}
-            className="mb-2 bg-gray-100 p-2 rounded-md flex flex-wrap items-center justify-between"
-            style={{ minWidth: '200px' }}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
+        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+            value={name}
+            onChange={handleNameChange}
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-gray-700 font-medium mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none focus:ring focus:border-blue-300"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+        </div>
+        <div className="flex justify-between">
+          <button
+            className="bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300"
+            onClick={handleLogin}
           >
-            <span className="flex-shrink">{todoItem.content}</span>
-            <div>
-              {!todoItem.done && (
-                <button
-                  className="bg-green-500 text-white p-2 rounded-md"
-                  onClick={() => handleMarkTodoDone(todoItem.id,'false')}
-                >
-                  Done
-                </button>
-              )}
-              {todoItem.done && (
-                <button
-                  className="bg-green-300 text-white p-2 rounded-md relative"
-                  onClick={() => handleMarkTodoDone(todoItem.id,'true')}
-                >
-                  Done
-                  <span className="absolute inset-0 flex items-center justify-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="h-8 w-8 text-blue-500"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </span>
-                </button>
-              )}
-              <button
-                className="bg-red-500 text-white p-2 rounded-md ml-2"
-                onClick={() => handleDeleteTodo(todoItem.id,todoItem.content)}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+            Register
+          </button>
+          <button
+            className="text-blue-500 underline focus:outline-none focus:ring focus:border-blue-300"
+            onClick={() => console.log('Go to register')}
+          >
+            Go to Register
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default TodoListPage;
+export default LoginPage;
 
