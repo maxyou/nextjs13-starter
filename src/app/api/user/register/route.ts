@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient } from '@prisma/client';
 import { Calc } from '@/common';
 import jwt from 'jsonwebtoken';
-
+import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 
 const prisma = new PrismaClient();
  
@@ -50,8 +50,23 @@ export async function POST(request: Request) {
       expiresIn: '1h',
     };
 
-    const token = jwt.sign(responseData, secret, options);
-    console.log(token);
+    const iat = Math.floor(Date.now() / 1000);
+    const exp = iat + 60 * 60; // one hour
+
+    const tokenBeforeSign = new SignJWT({ responseData })
+        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+        .setExpirationTime(exp)
+        .setIssuedAt(iat)
+        .setNotBefore(iat);
+    console.log(`using jose, tokenBeforeSign:${JSON.stringify(tokenBeforeSign)}`);
+    const token = await tokenBeforeSign.sign(new TextEncoder().encode(secret));
+    console.log(`using jose, token:${JSON.stringify(token)}`);
+
+    const tokenParsed = await jwtVerify(token, new TextEncoder().encode(secret));
+    console.log(`using jose, tokenParsed:${JSON.stringify(tokenParsed)}`);
+
+    // const token = jwt.sign(responseData, secret, options);
+    // console.log(token);
 
     const res = NextResponse.json({ code: 0, message: 'success', data: responseData })
 
