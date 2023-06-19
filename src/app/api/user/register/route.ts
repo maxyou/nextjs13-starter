@@ -51,7 +51,8 @@ export async function POST(request: Request) {
     };
 
     const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 60 * 60; // one hour
+    // const exp = iat + 60 * 60; // one hour
+    const exp = iat + 60; // one minute
 
     const tokenBeforeSign = new SignJWT({ responseData })
         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
@@ -62,11 +63,8 @@ export async function POST(request: Request) {
     const token = await tokenBeforeSign.sign(new TextEncoder().encode(secret));
     console.log(`using jose, token:${JSON.stringify(token)}`);
 
-    const tokenParsed = await jwtVerify(token, new TextEncoder().encode(secret));
-    console.log(`using jose, tokenParsed:${JSON.stringify(tokenParsed)}`);
-
-    // const token = jwt.sign(responseData, secret, options);
-    // console.log(token);
+    // const tokenParsed = await jwtVerify(token, new TextEncoder().encode(secret));
+    // console.log(`using jose, tokenParsed:${JSON.stringify(tokenParsed)}`);
 
     const res = NextResponse.json({ code: 0, message: 'success', data: responseData })
 

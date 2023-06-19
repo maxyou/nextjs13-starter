@@ -30,8 +30,8 @@ export async function joseVerify(token: string, secret: string): Promise<JoseJwt
         // Return an error response with a code and message
         return {
             code: -1,
-            // message: "failed",
-            message: JSON.stringify(error),
+            message: "failed or expired",
+            // message: JSON.stringify(error),
         };
     }
 }

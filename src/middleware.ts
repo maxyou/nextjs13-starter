@@ -26,6 +26,10 @@ export async function middleware(request: NextRequest) {
     const decodedToken = await joseVerify(jwtToken, secret);
     console.log('middleware.ts, decodedToken:', JSON.stringify(decodedToken))
     
+    if(decodedToken.code !== 0) {      
+      return NextResponse.redirect(new URL('/user/login', request.url))
+    }
+
     const resp = NextResponse.next({
       request: {
         headers
@@ -38,5 +42,5 @@ export async function middleware(request: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-    matcher: '/user/server',
+    matcher: '/biz/:path*',
 }
