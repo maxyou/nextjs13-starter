@@ -53,13 +53,13 @@ const LoginPage: React.FC = () => {
 
     // Perform registration logic here
     // You can send the data to an API or handle it as per your requirement
-    console.log('Registration submitted');
+    console.log('Login submitted');
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <div className="max-w-md w-full bg-white p-8 shadow-md rounded-md">
-        <h2 className="text-2xl font-bold mb-6">Register</h2>
+        <h2 className="text-2xl font-bold mb-6">Login</h2>
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-medium mb-2">
             Name
@@ -89,7 +89,7 @@ const LoginPage: React.FC = () => {
             className="bg-blue-500 text-white py-2 px-4 rounded focus:outline-none focus:ring focus:border-blue-300"
             onClick={handleLogin}
           >
-            Register
+            Login
           </button>
           <button
             className="text-blue-500 underline focus:outline-none focus:ring focus:border-blue-300"
