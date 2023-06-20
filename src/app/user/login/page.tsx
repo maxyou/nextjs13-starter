@@ -46,7 +46,12 @@ const LoginPage: React.FC = () => {
         console.log(data);
         if (data.code === 0) {          
           // redirect to todolist page
-          router.push('/biz/todolist');
+
+          const jsonData = { name: 'John', id: 25 };
+          const jsonString = JSON.stringify(jsonData);
+          const queryParams = encodeURIComponent(jsonString);
+
+          router.push('/biz/todolist?user=' + queryParams);
         }else{
           setSuggestion(data.message);
           console.log(`Login failed: ${data.message}`);
