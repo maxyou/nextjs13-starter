@@ -1,21 +1,25 @@
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose';
 
-export async function sign(payload: string, secret: string): Promise<string> {
-    const iat = Math.floor(Date.now() / 1000);
-    const exp = iat + 60 * 60; // one hour
+// export async function sign(payload: string, secret: string): Promise<string> {
+//     const iat = Math.floor(Date.now() / 1000);
+//     const exp = iat + 60 * 60; // one hour
 
-    return new SignJWT({ payload })
-        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-        .setExpirationTime(exp)
-        .setIssuedAt(iat)
-        .setNotBefore(iat)
-        .sign(new TextEncoder().encode(secret));
+//     return new SignJWT({ payload })
+//         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+//         .setExpirationTime(exp)
+//         .setIssuedAt(iat)
+//         .setNotBefore(iat)
+//         .sign(new TextEncoder().encode(secret));
+// }
+
+export interface JWTPayloadWithUser extends JWTPayload {
+    jwtUser: JwtUser;
 }
 
 export interface JoseJwtParseResult {
     code: number;
     message: string;
-    jwtPayload?: JWTPayload;
+    jwtPayloadWithUser?: JWTPayloadWithUser;
 }
 
 export async function joseVerify(token: string, secret: string): Promise<JoseJwtParseResult> {
@@ -24,7 +28,7 @@ export async function joseVerify(token: string, secret: string): Promise<JoseJwt
         return {
             code: 0,
             message: "success",
-            jwtPayload: payload,
+            jwtPayloadWithUser: payload as JWTPayloadWithUser,
         };
     } catch (error) {
         // Return an error response with a code and message
@@ -34,6 +38,31 @@ export async function joseVerify(token: string, secret: string): Promise<JoseJwt
             // message: JSON.stringify(error),
         };
     }
+}
+
+export interface JwtUser {
+    id: string;
+    name: string;
+}
+
+export async function getJoseJwtToken(jwtUser: JwtUser): Promise<string> {
+
+    const secret = process.env.JWT_SECRET as string;   
+
+    const iat = Math.floor(Date.now() / 1000);
+    // const exp = iat + 60 * 60; // one hour
+    const exp = iat + 60; // one minute
+
+    const tokenBeforeSign = new SignJWT({ jwtUser })
+        .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
+        .setExpirationTime(exp)
+        .setIssuedAt(iat)
+        .setNotBefore(iat);
+    console.log(`using jose, tokenBeforeSign:${JSON.stringify(tokenBeforeSign)}`);
+    const token = await tokenBeforeSign.sign(new TextEncoder().encode(secret));
+    console.log(`using jose, token:${JSON.stringify(token)}`);
+
+    return token;
 }
 
 export function isTokenExpired(decodedToken: JWTPayload): boolean {
