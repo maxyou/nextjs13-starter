@@ -11,6 +11,9 @@ const client = new Client({
 });
 
 const ClientPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
+
+    console.log('todolist/pageclient.tsx, jwtUser:', JSON.stringify(jwtUser))
+
     return (
         <div>
             <Provider value={client}>
