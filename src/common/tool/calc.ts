@@ -50,8 +50,12 @@ export async function getJoseJwtToken(jwtUser: JwtUser): Promise<string> {
     const secret = process.env.JWT_SECRET as string;   
 
     const iat = Math.floor(Date.now() / 1000);
+    const exp = iat + 60 * 60 * 24 * 31 * 12 * 100; // one hundred years
+    // const exp = iat + 60 * 60 * 24 * 31 * 12; // one year
+    // const exp = iat + 60 * 60 * 24 * 31; // one month
+    // const exp = iat + 60 * 60 * 24; // one day
     // const exp = iat + 60 * 60; // one hour
-    const exp = iat + 60; // one minute
+    // const exp = iat + 60; // one minute
 
     const tokenBeforeSign = new SignJWT({ jwtUser })
         .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })

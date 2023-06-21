@@ -6,8 +6,8 @@ import { useQuery, useMutation } from 'urql'
 
 // GraphQL mutation to add a todo item
 const ADD_TODO_MUTATION = `
-  mutation AddTodoItem($content: String!) {
-    addTodoItem(content: $content) {
+  mutation AddTodoItem($content: String!, $userId:String!) {
+    addTodoItem(content: $content, userId:$userId) {
       id
       content
     }
@@ -43,7 +43,7 @@ const FETCH_TODO_ITEMS_QUERY = `
   }
 `;
 
-const TodoListPage: React.FC<{user:JwtUser}> = (user) => {
+const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
 
   const [newTodoContent, setNewTodoContent] = useState('');
 
@@ -62,7 +62,7 @@ const TodoListPage: React.FC<{user:JwtUser}> = (user) => {
   });
 
   const handleAddTodo = () => {
-    addTodo({ content: newTodoContent }).then(() => {
+    addTodo({ content: newTodoContent, userId:jwtUser.id }).then(() => {
       setNewTodoContent('');
     });
   };
@@ -170,4 +170,4 @@ const TodoListPage: React.FC<{user:JwtUser}> = (user) => {
   );
 };
 
-export default TodoListPage;
+export default TodoListPage

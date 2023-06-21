@@ -9,6 +9,7 @@ type TodoItem {
   id: ID!
   content: String!
   done: Boolean!
+  userId: String!
 }
 
 type Query {
@@ -16,7 +17,7 @@ type Query {
 }
 
 type Mutation {
-  addTodoItem(content: String!): TodoItem!
+  addTodoItem(content: String!, userId:String!): TodoItem!
   markTodoItemDone(id: ID!, done:String!): TodoItem!
   deleteTodoItem(id: ID!): Boolean!
 }

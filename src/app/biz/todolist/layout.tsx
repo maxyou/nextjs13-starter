@@ -1,5 +1,3 @@
-import { JwtUser } from "@/common/tool/calc";
-
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div>
