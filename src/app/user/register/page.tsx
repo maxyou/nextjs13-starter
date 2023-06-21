@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/navigation';
 
 const RegisterPage: React.FC = () => {
@@ -39,6 +38,10 @@ const RegisterPage: React.FC = () => {
       setSuggestion('');
     }
   };
+
+  const handleGotoLogin = () => {
+    router.push('/user/login');
+  }
 
   const handleRegister = () => {
 
@@ -135,7 +138,7 @@ const RegisterPage: React.FC = () => {
           </button>
           <button
             className="text-blue-500 underline focus:outline-none focus:ring focus:border-blue-300"
-            onClick={() => console.log('Go to login')}
+            onClick={handleGotoLogin}
           >
             Go to Login
           </button>

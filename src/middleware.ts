@@ -10,17 +10,28 @@ export async function middleware(request: NextRequest) {
 
     console.log('middleware.ts, request.url:', request.url)
     console.log('middleware.ts, request.nextUrl.pathname:', request.nextUrl.pathname)
+    
+    // const { pathname } = request.nextUrl;
+    // if(pathname.includes('/user/')) {
+    //   return NextResponse.next({
+    //     // request: {
+    //     //   headers
+    //     // }
+    //   });
+    // }
 
-    const { pathname } = request.nextUrl;
-
-
-    if(pathname === '/user/login' || pathname === '/user/register') {
-      return NextResponse.next({
-        // request: {
-        //   headers
-        // }
-      });
-    }
+    // const { pathname } = request.nextUrl;
+    // if(
+    //   pathname === '/user/login' 
+    //   || pathname === '/user/register'
+    //   || pathname === '/user/logout'
+    //   ) {
+    //   return NextResponse.next({
+    //     // request: {
+    //     //   headers
+    //     // }
+    //   });
+    // }
 
 
     const headers = new Headers(request.headers);
@@ -71,8 +82,10 @@ export async function middleware(request: NextRequest) {
 // See "Matching Paths" below to learn more
 export const config = {
     matcher: [
-      '/about',
+      // '/about',
+      // '/user/(.*)',
+      // '/api/user/(.*)',
       '/biz/(.*)',     
-      '/user/(.*)',
+      '/api/biz/(.*)',
     ],
 }

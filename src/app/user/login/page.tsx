@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
@@ -21,7 +20,9 @@ const LoginPage: React.FC = () => {
     setPassword(e.target.value);
   };
 
-
+  const handleGotoRegister = () => {
+    router.push('/user/register');
+  }
 
   const handleLogin = () => {
 
@@ -38,7 +39,7 @@ const LoginPage: React.FC = () => {
       }),
     };
     
-    console.log(`POST name: ${name}, password: ${password}`);
+    console.log(`login POST name: ${name}, password: ${password}`);
 
     fetch(url, options)
       .then((response) => response.json())
@@ -46,12 +47,7 @@ const LoginPage: React.FC = () => {
         console.log(data);
         if (data.code === 0) {          
           // redirect to todolist page
-
-          const jsonData = { name: 'John', id: 25 };
-          const jsonString = JSON.stringify(jsonData);
-          const queryParams = encodeURIComponent(jsonString);
-
-          router.push('/biz/todolist?user=' + queryParams);
+          router.push('/biz/todolist');
         }else{
           setSuggestion(data.message);
           console.log(`Login failed: ${data.message}`);
@@ -101,7 +97,7 @@ const LoginPage: React.FC = () => {
           </button>
           <button
             className="text-blue-500 underline focus:outline-none focus:ring focus:border-blue-300"
-            onClick={() => console.log('Go to register')}
+            onClick={handleGotoRegister}
           >
             Go to Register
           </button>

@@ -3,6 +3,7 @@
 import { JwtUser } from '@/common/tool/calc';
 import React, { useState } from 'react';
 import { useQuery, useMutation } from 'urql'
+import { useRouter } from 'next/navigation';
 
 // GraphQL mutation to add a todo item
 const ADD_TODO_MUTATION = `
@@ -46,6 +47,8 @@ const FETCH_TODO_ITEMS_QUERY = `
 
 const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
 
+  const router = useRouter();
+  
   const userId = jwtUser.id;
   console.log('TodoListPage userId', userId);
 
@@ -69,6 +72,7 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
   const handleAddTodo = () => {
     addTodo({ content: newTodoContent, userId:jwtUser.id }).then(() => {
       setNewTodoContent('');
+      reexecuteQuery({ requestPolicy: 'network-only' });
     });
   };
 
@@ -97,6 +101,49 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
     console.log('refreshItems');
     reexecuteQuery({ requestPolicy: 'network-only' });
   };
+  const logout = () => {
+    console.log('logout');
+    
+    const url = "/api/user/logout";
+    const options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: jwtUser.name,
+      }),
+    };
+    
+    console.log(`POST name: ${jwtUser.name}`);
+
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {        
+        console.log(data);
+        if (data.code === 0) {          
+          console.log(`Logout success: ${data.message}`);
+
+          // redirect to todolist page
+
+          // const jsonData = { name: 'John', id: 25 };
+          // const jsonString = JSON.stringify(jsonData);
+          // const queryParams = encodeURIComponent(jsonString);
+
+          router.push('/user/login');
+        }else{
+          
+          console.log(`Logout failed: ${data.message}`);
+        }
+      });
+
+
+    // Perform registration logic here
+    // You can send the data to an API or handle it as per your requirement
+    console.log('Login submitted');    
+
+  };
 
   return (
 
@@ -106,6 +153,12 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
           onClick={refreshItems}
         >
           Refresh
+        </button>
+        <button
+          className="bg-blue-500 text-white p-2 rounded-md ml-2"
+          onClick={logout}
+        >
+          Logout
         </button>
       <div className="flex mb-4">
         <input

@@ -27,7 +27,9 @@ type Mutation {
 const resolvers = {
   Query: {
     todoItems: async (_: any, { userId }: { userId: string }) => {
-      console.log(`query TodoItem(): ${userId}`);
+      console.log(`query TodoItem() userId: ${userId}`);
+      const userName = await prisma.user.findUnique({where: {id: userId}, select: {name: true}});
+      console.log(`========query TodoItem() user name: ${JSON.stringify(userName)}`);
       const result = await prisma.todoItem.findMany({
         where: { userId },
         orderBy: {

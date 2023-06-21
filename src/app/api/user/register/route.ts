@@ -21,6 +21,7 @@ export async function POST(request: Request) {
         name: nameRequest,
         password: password,
         email: email,
+        logined: true,
       }
     });
 
