@@ -13,7 +13,7 @@ type TodoItem {
 }
 
 type Query {
-  todoItems: [TodoItem!]!
+  todoItems(userId:String!): [TodoItem!]!
 }
 
 type Mutation {
@@ -26,10 +26,18 @@ type Mutation {
 
 const resolvers = {
   Query: {
-    todoItems: async () => {
+    todoItems: async (_: any, { userId }: { userId: string }) => {
+      console.log(`query TodoItem(): ${userId}`);
       const result = await prisma.todoItem.findMany({
+        where: { userId },
         orderBy: {
           done: "asc"
+        },
+        select: {
+          id: true,
+          content: true,
+          done: true,
+          userId: true,
         }
       });
       console.log(`query TodoItem(): ${JSON.stringify(result)}`);

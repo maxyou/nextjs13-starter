@@ -34,16 +34,20 @@ const DELETE_TODO_MUTATION = `
 
 // GraphQL query to fetch todo items
 const FETCH_TODO_ITEMS_QUERY = `
-  query FetchTodoItems {
-    todoItems {
+  query FetchTodoItems($userId: String!) {
+    todoItems(userId: $userId ) {
       id
       content
       done
+      userId
     }
   }
 `;
 
 const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
+
+  const userId = jwtUser.id;
+  console.log('TodoListPage userId', userId);
 
   const [newTodoContent, setNewTodoContent] = useState('');
 
@@ -59,6 +63,7 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
   // Query hook for fetching todo items
   const [fetchTodoResult, reexecuteQuery] = useQuery({
     query: FETCH_TODO_ITEMS_QUERY,
+    variables: { userId },
   });
 
   const handleAddTodo = () => {
@@ -88,10 +93,20 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({jwtUser}) => {
     }
 
   };
+  const refreshItems = () => {
+    console.log('refreshItems');
+    reexecuteQuery({ requestPolicy: 'network-only' });
+  };
 
   return (
 
     <div className="container mx-auto p-4">
+        <button
+          className="bg-blue-500 text-white p-2 rounded-md ml-2"
+          onClick={refreshItems}
+        >
+          Refresh
+        </button>
       <div className="flex mb-4">
         <input
           type="text"
