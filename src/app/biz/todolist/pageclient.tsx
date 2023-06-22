@@ -19,10 +19,10 @@ const ClientPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
             <Provider value={client}>
                 <div>
 
-                    <p>ClientPage</p>
+                    {/* <p>ClientPage</p>
                     {
                         jwtUser && JSON.stringify({ jwtUser })
-                    }
+                    } */}
                     <TodoListPage jwtUser={jwtUser} />
                 </div>
             </Provider>
