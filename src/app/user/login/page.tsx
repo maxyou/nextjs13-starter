@@ -46,8 +46,9 @@ const LoginPage: React.FC = () => {
       .then((data) => {        
         console.log(data);
         if (data.code === 0) {          
+          // router.refresh();
           // redirect to todolist page
-          router.push('/biz/todolist');
+          router.push(`/biz/todolist?${Math.random().toString()}`);
         }else{
           setSuggestion(data.message);
           console.log(`Login failed: ${data.message}`);
