@@ -66,7 +66,7 @@ const RegisterPage: React.FC = () => {
         console.log(data);
         if (data.code === 0) {          
           // redirect to todolist page
-          router.push('/biz/todolist');
+          router.push(`/biz/todolist?${Math.random().toString()}`);
         }
       });
 

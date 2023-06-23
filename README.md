@@ -15,10 +15,10 @@ I'm trying to add features to make it a complete starter for future projects.
 - SWR for Restful-API
 - Prisma to access PostgreSQL
 - todo list CRUD
+- authentication
 
 ## ToDo
 
-- authentication
 - tailwind-elements
 
 ### Screen
