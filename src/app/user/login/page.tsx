@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import GoogleLoginButtonJs from '@/common/component/googlebuttonjs';
+import GoogleLoginButtonHtml from '@/common/component/googlebuttonhtml';
 
 const LoginPage: React.FC = () => {
 
@@ -38,18 +40,18 @@ const LoginPage: React.FC = () => {
         password: password,
       }),
     };
-    
+
     console.log(`login POST name: ${name}, password: ${password}`);
 
     fetch(url, options)
       .then((response) => response.json())
-      .then((data) => {        
+      .then((data) => {
         console.log(data);
-        if (data.code === 0) {          
+        if (data.code === 0) {
           // router.refresh();
           // redirect to todolist page
           router.push(`/biz/todolist?${Math.random().toString()}`);
-        }else{
+        } else {
           setSuggestion(data.message);
           console.log(`Login failed: ${data.message}`);
         }
@@ -103,6 +105,12 @@ const LoginPage: React.FC = () => {
             Go to Register
           </button>
         </div>
+      </div>
+      <div>
+        <GoogleLoginButtonJs />
+      </div>
+      <div>
+        <GoogleLoginButtonHtml />
       </div>
     </div>
   );
