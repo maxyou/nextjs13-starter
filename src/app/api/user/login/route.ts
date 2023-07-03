@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     });
 
     const { id, name: nameDB } = userFindFirst as { id: string; name: string };
-    const jwtUser:JwtUser = { id, name:nameDB}
+    const jwtUser:JwtUser = { id, name:nameDB, from:"register"}
 
     const token = await Calc.getJoseJwtToken(jwtUser);
 
