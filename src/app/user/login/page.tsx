@@ -12,18 +12,20 @@ export default async function PageServer() {
   console.log(`client_id: ${process.env.GOOGLE_CLIENT_ID}`);
 
   return (
-    <div>
-        <div>
-          <GoogleLoginButtonHtml 
-            gsi_src={process.env.GOOGLE_ACCOUNT_GSI_CLIENT!}
-            server_login_uri={process.env.GOOGLE_LOGIN_URI_HTML!} 
-            client_id={process.env.GOOGLE_CLIENT_ID!}
-          />
-        </div>
-      
+    <div className="flex justify-center items-center h-screen">
+      <div>
         <div>
           <PageClient />
         </div>
+        <div className="flex justify-center items-center mt-10">
+          <GoogleLoginButtonHtml
+            gsi_src={process.env.GOOGLE_ACCOUNT_GSI_CLIENT!}
+            server_login_uri={process.env.GOOGLE_LOGIN_URI_HTML!}
+            client_id={process.env.GOOGLE_CLIENT_ID!}
+          />
+        </div>
+      </div>
     </div>
+
   )
 }
