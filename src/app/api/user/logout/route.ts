@@ -35,8 +35,8 @@ export async function POST(request: Request) {
     });
     console.log(`logout, prisma.user.logined set to false`)
 
-    const { id, name: nameDB } = userFindFirst as { id: string; name: string };
-    const jwtUser:JwtUser = { id, name:nameDB}
+    const { id, name: nameDB, from } = userFindFirst as { id: string; name: string, from: string };
+    const jwtUser:JwtUser = { id, name:nameDB, from}
 
     // const token = await Calc.getJoseJwtToken(jwtUser);
 

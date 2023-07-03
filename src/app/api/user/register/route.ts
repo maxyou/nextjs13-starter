@@ -22,13 +22,19 @@ export async function POST(request: Request) {
         password: password,
         email: email,
         logined: true,
+        from: 'register'
       }
     });
 
     console.log(`prisma.todoItem.create return: ${JSON.stringify(ret)}`) 
     
     const { id, name: nameDB } = ret as { id: string; name: string};
-    const jwtUser = { id, name:nameDB}
+    const jwtUser = { 
+      id, 
+      name:nameDB,
+      email: email,
+      from: 'register'
+    }
 
     const jwtToken = await Calc.getJoseJwtToken(jwtUser);
 

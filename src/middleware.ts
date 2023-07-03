@@ -47,6 +47,7 @@ export async function middleware(request: NextRequest) {
     console.log('middleware.ts, jwtToken:', jwtToken)
 
     const secret = process.env.JWT_SECRET as string;
+    console.log('====middleware.ts, secret:', secret)
 
     const decodedToken = await joseVerify(jwtToken, secret);
     console.log('middleware.ts, decodedToken:', JSON.stringify(decodedToken))

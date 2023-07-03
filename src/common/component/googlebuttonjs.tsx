@@ -16,7 +16,7 @@ const GoogleLoginButton: React.FC = () => {
 
     function initializeGoogleLogin() {
       window.google.accounts.id.initialize({
-        client_id: "YOUR_GOOGLE_CLIENT_ID",
+        client_id: "148920992021-ra7stt37aqlqii1bojpe3enf3t800vdh.apps.googleusercontent.com",
         callback: handleCredentialResponse
       });
       window.google.accounts.id.renderButton(

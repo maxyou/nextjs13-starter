@@ -17,10 +17,12 @@ model TodoItem {
 
 model User {
   id      String  @id @default(uuid())
+  from    String
   name    String  @unique
-  password String
+  nickname String?
+  password String?
+  avatar   String?
   email   String?
-  from    String?
-  logined    Boolean @default(false)
+  logined    Boolean? @default(false)
   todoItems TodoItem[]
 }

@@ -1,12 +1,23 @@
 'use client'
 
 import React, { useEffect } from 'react';
+// import { GoogleLoginButtonProps } from '../interface';
 
-const GoogleLoginButton: React.FC = () => {
+
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
+  gsi_src,
+  server_login_uri,
+  client_id
+}) => {
+
+  console.log(`gsi_src: ${gsi_src}`);
+  console.log(`server_login_uri: ${server_login_uri}`);
+  console.log(`client_id: ${client_id}`);
+
   useEffect(() => {
     function initializeGoogleLogin() {
       const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
+      script.src = gsi_src;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
@@ -15,14 +26,14 @@ const GoogleLoginButton: React.FC = () => {
     if (typeof window !== 'undefined' && typeof window.google === 'undefined') {
       initializeGoogleLogin();
     }
-  }, []);
+  }, []);  
 
   return (
     <div>
       <div
         id="g_id_onload"
-        data-client_id="YOUR_GOOGLE_CLIENT_ID"
-        data-login_uri="https://your.domain/your_login_endpoint"
+        data-client_id={client_id}
+        data-login_uri={server_login_uri}
         data-auto_prompt="false"
       ></div>
       <div
@@ -39,3 +50,10 @@ const GoogleLoginButton: React.FC = () => {
 };
 
 export default GoogleLoginButton;
+
+export interface GoogleLoginButtonProps {
+  gsi_src: string;
+  client_id: string;  
+  server_login_uri?: string;
+  after_login_jump_uri?: string;
+}

@@ -1,4 +1,3 @@
-import React, {useEffect} from 'react'
 import { headers, cookies } from 'next/headers'
 import PageClient from './pageclient'
 import { JwtUser, joseVerify } from '@/common/tool/calc';
