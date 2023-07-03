@@ -44,7 +44,7 @@ export interface JwtUser {
     id: string;
     name: string;
     email?: string;
-    picture?: string;
+    avatar?: string;
     from: string;
     // sub?: string;
 }

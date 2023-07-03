@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     id:"user-id", 
     name:"user-name", 
     email: "user-email",
-    picture: "user-picture",
+    avatar: "user-avatar",
     from:"google",    
   }
 
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           email: jwtUser.email,
           logined: true,          
           from: 'google',
-          avatar: jwtUser.picture
+          avatar: jwtUser.avatar
         }
       });
     }
