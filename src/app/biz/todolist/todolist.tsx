@@ -105,6 +105,22 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
   };
 
   const logout = () => {
+
+    if (jwtUser.from === 'google') {
+
+      if (typeof window.google !== 'undefined') {
+        console.log("google is defined");
+        
+        window.google.accounts.id.revoke(jwtUser.name, (done: { error: any; }) => {
+          console.log(`google.accounts revoke done error: ${done.error}`);
+        });
+
+        console.log("call window.google.accounts.id.revoke()");
+      } else {
+        console.log("google is undefined");
+      }
+    }
+
     console.log('logout');
 
     const url = "/api/user/logout";
