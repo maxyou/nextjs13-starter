@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation } from 'urql'
 import { useRouter } from 'next/navigation';
 import { Calc } from '@/common';
-import AvatarDefaut from '@/common/component/avatar-default';
+import AvatarDefaultSvg  from '@/common/component/avatar-default.svg';
 
 // GraphQL mutation to add a todo item
 const ADD_TODO_MUTATION = `
@@ -177,7 +177,7 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
               className="w-8 h-8 rounded-full mr-2"
             />
           ) : (
-            <AvatarDefaut className="w-8 h-8 mr-2" />
+            <AvatarDefaultSvg className="w-8 h-8 mr-2" />
           )}
           <p className="text-gray-700">{Calc.getShowNameFromJwtUser(jwtUser)}</p>
         </div>
