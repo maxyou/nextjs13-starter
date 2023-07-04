@@ -110,7 +110,7 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
 
       if (typeof window.google !== 'undefined') {
         console.log("google is defined");
-        
+
         window.google.accounts.id.revoke(jwtUser.name, (done: { error: any; }) => {
           console.log(`google.accounts revoke done error: ${done.error}`);
         });
@@ -169,11 +169,29 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
     <div className="container mx-auto p-4">
       <div className="flex mb-4 justify-end items-center">
         <div className="flex items-center">
-          <img
-            src={jwtUser.avatar} // Replace 'avatar.jpg' with the actual URL or path to the avatar image
-            alt="Avatar"
-            className="w-8 h-8 rounded-full mr-2"
-          />
+          {jwtUser.avatar ? (
+            <img
+              src={jwtUser.avatar}
+              alt="Avatar"
+              className="w-8 h-8 rounded-full mr-2"
+            />
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-8 h-8 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {/* Replace the path below with the SVG path for your beautiful avatar */}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 4c-2.209 0-4 1.791-4 4 0 2.209 1.791 4 4 4s4-1.791 4-4c0-2.209-1.791-4-4-4zM12 2C6.477 2 2 6.477 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm0 18v-2M8 20H4M16 20h-4M20 14h-2M4 14H2M20 8h-2M16 8h-4"
+              />
+            </svg>
+          )}
           <p className="text-gray-700">{Calc.getShowNameFromJwtUser(jwtUser)}</p>
         </div>
         <button
