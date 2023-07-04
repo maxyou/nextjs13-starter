@@ -4,6 +4,7 @@ import { JwtUser } from '@/common/tool/calc';
 import React, { useState } from 'react';
 import { useQuery, useMutation } from 'urql'
 import { useRouter } from 'next/navigation';
+import { Calc } from '@/common';
 
 // GraphQL mutation to add a todo item
 const ADD_TODO_MUTATION = `
@@ -151,13 +152,14 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
 
     <div className="container mx-auto p-4">
       <div className="flex mb-4 justify-end items-center">
-        user: {jwtUser.name}
-        {/* <button
-          className="bg-blue-500 text-white p-2 rounded-md ml-2"
-          onClick={refreshItems}
-        >
-          Refresh
-        </button> */}
+        <div className="flex items-center">
+          <img
+            src={jwtUser.avatar} // Replace 'avatar.jpg' with the actual URL or path to the avatar image
+            alt="Avatar"
+            className="w-8 h-8 rounded-full mr-2"
+          />
+          <p className="text-gray-700">{Calc.getShowNameFromJwtUser(jwtUser)}</p>
+        </div>
         <button
           className="bg-blue-500 text-white p-2 rounded-md ml-2"
           onClick={logout}

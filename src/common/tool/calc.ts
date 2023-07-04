@@ -50,6 +50,16 @@ export interface JwtUser {
     // sub?: string;
 }
 
+export function getShowNameFromJwtUser(jwtUser: JwtUser): string {
+    if (jwtUser.from === "register") {
+        return jwtUser.name;
+    }else if (jwtUser.from === "google") {
+        return jwtUser.nickname || jwtUser.name;
+    }
+    
+    return jwtUser.id;
+}
+
 export async function getJoseJwtToken(jwtUser: JwtUser): Promise<string> {
 
     const secret = process.env.JWT_SECRET as string;   
