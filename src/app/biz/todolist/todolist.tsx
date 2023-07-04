@@ -179,17 +179,16 @@ const TodoListPage: React.FC<{ jwtUser: JwtUser }> = ({ jwtUser }) => {
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-8 h-8 mr-2"
-              fill="none"
               viewBox="0 0 24 24"
+              fill="none"
               stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {/* Replace the path below with the SVG path for your beautiful avatar */}
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4c-2.209 0-4 1.791-4 4 0 2.209 1.791 4 4 4s4-1.791 4-4c0-2.209-1.791-4-4-4zM12 2C6.477 2 2 6.477 2 12c0 5.523 4.477 10 10 10s10-4.477 10-10c0-5.523-4.477-10-10-10zm0 18v-2M8 20H4M16 20h-4M20 14h-2M4 14H2M20 8h-2M16 8h-4"
-              />
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-2M12 8V6" />
+              <path d="M16 12h2M8 12h2" />
             </svg>
           )}
           <p className="text-gray-700">{Calc.getShowNameFromJwtUser(jwtUser)}</p>
